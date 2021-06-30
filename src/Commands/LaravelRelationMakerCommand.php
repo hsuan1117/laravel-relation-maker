@@ -22,6 +22,7 @@ class LaravelRelationMakerCommand extends GeneratorCommand
             // 代表是把原本有的東東新增
             if (method_exists($this->qualifyClass($modelA), strtolower($modelB)) || method_exists($this->qualifyClass($modelA), strtolower($modelB) . 's')) {
                 $this->error('Method exists.');
+
                 return 1;
             }
             $content = file_get_contents($this->getPath($this->qualifyClass($modelA)));
@@ -47,38 +48,38 @@ class LaravelRelationMakerCommand extends GeneratorCommand
             $str = str_replace('{{ relation }}', $relation, $str);
             file_put_contents($this->getPath($this->qualifyClass($modelA)), $str);
 
-            if (!file_exists($this->getPath($this->qualifyClass($modelB)))) {
+            if (! file_exists($this->getPath($this->qualifyClass($modelB)))) {
                 $this->call('make:relation', [
                     'name' => $modelB,
                     'relation' => 'belongsTo',
                     'modelB' => $modelA,
-                    '--migration' => $this->option('migration')
+                    '--migration' => $this->option('migration'),
                 ]);
             }
-        } else if ($relation === 'belongsTo') {
+        } elseif ($relation === 'belongsTo') {
             $str = str_replace('{{ modelName }}', strtolower($modelB), $str);
             $str = str_replace('{{ relation }}', $relation, $str);
             file_put_contents($this->getPath($this->qualifyClass($modelA)), $str);
 
-            if (!file_exists($this->getPath($this->qualifyClass($modelB)))) {
+            if (! file_exists($this->getPath($this->qualifyClass($modelB)))) {
                 $this->call('make:relation', [
                     'name' => $modelB,
                     'relation' => 'hasMany',
                     'modelB' => $modelA,
-                    '--migration' => $this->option('migration')
+                    '--migration' => $this->option('migration'),
                 ]);
             }
-        } else if ($relation === 'belongsToMany') {
+        } elseif ($relation === 'belongsToMany') {
             $str = str_replace('{{ modelName }}', strtolower($modelB) . 's', $str);
             $str = str_replace('{{ relation }}', $relation, $str);
             file_put_contents($this->getPath($this->qualifyClass($modelA)), $str);
 
-            if (!file_exists($this->getPath($this->qualifyClass($modelB)))) {
+            if (! file_exists($this->getPath($this->qualifyClass($modelB)))) {
                 $this->call('make:relation', [
                     'name' => $modelB,
                     'relation' => 'belongsToMany',
                     'modelB' => $modelA,
-                    '--migration' => $this->option('migration')
+                    '--migration' => $this->option('migration'),
                 ]);
             }
         }
@@ -89,13 +90,13 @@ class LaravelRelationMakerCommand extends GeneratorCommand
                 # One to Many
                 $file = file_get_contents($this->getParsedStub('migration.relation.stub'));
                 $this->clearMigration();
-                $this->addFieldMigration('bigInteger',strtolower($modelB).'_id');
+                $this->addFieldMigration('bigInteger', strtolower($modelB).'_id');
                 $file = str_replace('{{ class }}', 'Create' . $modelA . 'Table', $file);
                 $file = str_replace('{{ table }}', strtolower($modelA) . 's', $file);
                 $file = str_replace('{{ tableField }}', $this->databaseMigration, $file);
                 file_put_contents(database_path('migrations') . '/' . Carbon::now()->format('Y_m_d_His_') . 'create'. '_' . strtolower($modelA) . '_table.php', $file);
                 $this->info('Created Migration for '.$modelA);
-            } else if ($relation === 'hasMany') {
+            } elseif ($relation === 'hasMany') {
                 //$this->info('hasMany');
                 # One to Many
                 $file = file_get_contents($this->getParsedStub('migration.relation.stub'));
@@ -105,7 +106,7 @@ class LaravelRelationMakerCommand extends GeneratorCommand
                 $file = str_replace('{{ tableField }}', $this->databaseMigration, $file);
                 file_put_contents(database_path('migrations') . '/' . Carbon::now()->format('Y_m_d_His_') . 'create' . '_' . strtolower($modelA) . '_table.php', $file);
                 $this->info('Created Migration for '.$modelA);
-            } else if ($relation === 'belongsToMany') {
+            } elseif ($relation === 'belongsToMany') {
                 # Many to Many
                 if ($modelA < $modelB) {
                     ############
@@ -161,7 +162,7 @@ class LaravelRelationMakerCommand extends GeneratorCommand
         return 'App\\' . 'Models';
     }
 
-    function str_lreplace($search, $replace, $subject)
+    public function str_lreplace($search, $replace, $subject)
     {
         $pos = strrpos($subject, $search);
 
@@ -188,9 +189,11 @@ class LaravelRelationMakerCommand extends GeneratorCommand
             return Config::get("generators::config.{$configName}");
         }*/
 
-    protected function getParsedStub($file){
+    protected function getParsedStub($file)
+    {
         $userStub = resource_path('stubs/'.$file);
         $vendorStub = __DIR__ . '/stubs/'.$file;
+
         return file_exists($userStub) ? $userStub : $vendorStub;
     }
 

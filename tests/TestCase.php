@@ -2,9 +2,9 @@
 
 namespace Hsuan\LaravelRelationMaker\Tests;
 
+use Hsuan\LaravelRelationMaker\LaravelRelationMakerServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Hsuan\LaravelRelationMaker\LaravelRelationMakerServiceProvider;
 
 class TestCase extends Orchestra
 {

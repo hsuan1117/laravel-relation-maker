@@ -2,9 +2,9 @@
 
 namespace Hsuan\LaravelRelationMaker;
 
+use Hsuan\LaravelRelationMaker\Commands\LaravelRelationMakerCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Hsuan\LaravelRelationMaker\Commands\LaravelRelationMakerCommand;
 
 class LaravelRelationMakerServiceProvider extends PackageServiceProvider
 {
@@ -20,6 +20,7 @@ class LaravelRelationMakerServiceProvider extends PackageServiceProvider
         $this->publishes([
             __DIR__.'/Commands/stubs' => resource_path('stubs'),
         ], 'laravel-relation-maker-stubs');
+
         return parent::boot();
     }
 }
