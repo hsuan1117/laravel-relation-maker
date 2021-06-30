@@ -17,7 +17,7 @@ class LaravelRelationMakerCommand extends GeneratorCommand
         $modelB = $this->argument('modelB');
         $relation = $this->argument('relation');
 
-        $this->info('   > Checking ' . $this->qualifyModel($modelA));
+        //$this->info('   > Checking ' . $this->qualifyModel($modelA));
         if (file_exists($this->getPath($this->qualifyClass($modelA)))) {
             // 代表是把原本有的東東新增
             if (method_exists($this->qualifyClass($modelA), strtolower($modelB)) || method_exists($this->qualifyClass($modelA), strtolower($modelB) . 's')) {
