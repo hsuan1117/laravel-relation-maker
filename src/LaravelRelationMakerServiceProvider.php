@@ -10,16 +10,16 @@ class LaravelRelationMakerServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
         $package
             ->name('laravel-relation-maker')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel-relation-maker_table')
             ->hasCommand(LaravelRelationMakerCommand::class);
+    }
+
+    public function boot()
+    {
+        $this->publishes([
+            __DIR__.'/Commands/stubs' => resource_path('stubs'),
+        ], 'laravel-relation-maker-stubs');
+        return parent::boot();
     }
 }

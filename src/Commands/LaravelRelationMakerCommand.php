@@ -87,7 +87,7 @@ class LaravelRelationMakerCommand extends GeneratorCommand
             if ($relation === 'belongsTo') {
                 //$this->info('belongsTo');
                 # One to Many
-                $file = file_get_contents(__DIR__ . '/stubs/migration.relation.stub');
+                $file = file_get_contents($this->getParsedStub('migration.relation.stub'));
                 $this->clearMigration();
                 $this->addFieldMigration('bigInteger',strtolower($modelB).'_id');
                 $file = str_replace('{{ class }}', 'Create' . $modelA . 'Table', $file);
@@ -98,7 +98,7 @@ class LaravelRelationMakerCommand extends GeneratorCommand
             } else if ($relation === 'hasMany') {
                 //$this->info('hasMany');
                 # One to Many
-                $file = file_get_contents(__DIR__ . '/stubs/migration.relation.stub');
+                $file = file_get_contents($this->getParsedStub('migration.relation.stub'));
                 $this->clearMigration();
                 $file = str_replace('{{ class }}', 'Create' . $modelA . 'Table', $file);
                 $file = str_replace('{{ table }}', strtolower($modelA) . 's', $file);
@@ -113,7 +113,7 @@ class LaravelRelationMakerCommand extends GeneratorCommand
                     ############
                     $arr = [$modelA,$modelB];
                     foreach ($arr as $model) {
-                        $file = file_get_contents(__DIR__ . '/stubs/migration.relation.stub');
+                        $file = file_get_contents($this->getParsedStub('migration.relation.stub'));
                         $this->clearMigration();
                         $file = str_replace('{{ class }}', 'Create' . $model . 'Table', $file);
                         $file = str_replace('{{ table }}', strtolower($model) . 's', $file);
@@ -124,7 +124,7 @@ class LaravelRelationMakerCommand extends GeneratorCommand
                     ##############
                     ## Relation ##
                     ##############
-                    $file = file_get_contents(__DIR__ . '/stubs/migration.relation.stub');
+                    $file = file_get_contents($this->getParsedStub('migration.relation.stub'));
                     $this->clearMigration();
                     $this->addFieldMigration('bigInteger', strtolower($modelA) . '_id');
                     $this->addFieldMigration('bigInteger', strtolower($modelB) . '_id');
@@ -188,8 +188,14 @@ class LaravelRelationMakerCommand extends GeneratorCommand
             return Config::get("generators::config.{$configName}");
         }*/
 
+    protected function getParsedStub($file){
+        $userStub = resource_path('stubs/'.$file);
+        $vendorStub = __DIR__ . '/stubs/'.$file;
+        return file_exists($userStub) ? $userStub : $vendorStub;
+    }
+
     protected function getStub()
     {
-        return __DIR__ . '/stubs/model.relation.stub';
+        return $this->getParsedStub('model.relation.stub');
     }
 }
