@@ -1,8 +1,8 @@
 # LaravelRelationMaker
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/hsuan/laravel-relation-maker.svg?style=flat-square)](https://packagist.org/packages/hsuan/laravel-relation-maker)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/hsuan/laravel-relation-maker/run-tests?label=tests)](https://github.com/hsuan/laravel-relation-maker/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/hsuan/laravel-relation-maker/Check%20&%20fix%20styling?label=code%20style)](https://github.com/hsuan/laravel-relation-maker/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/hsuan1117/laravel-relation-maker/run-tests?label=tests)](https://github.com/hsuan/laravel-relation-maker/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/hsuan1117/laravel-relation-maker/Check%20&%20fix%20styling?label=code%20style)](https://github.com/hsuan/laravel-relation-maker/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/hsuan/laravel-relation-maker.svg?style=flat-square)](https://packagist.org/packages/hsuan/laravel-relation-maker)
 
 The package can help you generate model, migrations for eloquent relationship.
