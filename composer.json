@@ -1,6 +1,6 @@
 {
     "name": "hsuan/laravel-relation-maker",
-    "description": "This is my package LaravelRelationMaker",
+    "description": "LaravelRelationMaker to help people generate model with relation",
     "keywords": [
         "hsuan",
         "laravel",
@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": ">=7.4",
         "spatie/laravel-package-tools": "^1.4.3",
         "illuminate/contracts": "^8.37"
     },
