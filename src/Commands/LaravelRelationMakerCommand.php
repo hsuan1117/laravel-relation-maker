@@ -22,6 +22,7 @@ class LaravelRelationMakerCommand extends GeneratorCommand
             // Check if relation function (likes "cars" or "car")
             if (method_exists($this->qualifyClass($modelA), strtolower($modelB)) || method_exists($this->qualifyClass($modelA), strtolower($modelB) . 's')) {
                 $this->error('Method exists.');
+
                 return 1;
             }
 
@@ -35,7 +36,7 @@ class LaravelRelationMakerCommand extends GeneratorCommand
             FUNC), $content);
             file_put_contents($this->getPath($this->qualifyClass($modelA)), $str);
             $this->info('   # Modified ' . $this->qualifyClass($modelA));
-            // [/A1]
+        // [/A1]
         } else {
             // Model A not exists => call parent create model files
             parent::handle();
@@ -116,10 +117,10 @@ class LaravelRelationMakerCommand extends GeneratorCommand
                     ## Normal ##
                     ############
                     $arr = [];
-                    if (!file_exists($this->getPath($this->qualifyClass($modelA)))){
+                    if (! file_exists($this->getPath($this->qualifyClass($modelA)))) {
                         array_push($arr, $modelA);
                     }
-                    if (!file_exists($this->getPath($this->qualifyClass($modelB)))){
+                    if (! file_exists($this->getPath($this->qualifyClass($modelB)))) {
                         array_push($arr, $modelB);
                     }
 
