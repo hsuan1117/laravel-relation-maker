@@ -17,14 +17,15 @@ class LaravelRelationMakerCommand extends GeneratorCommand
         $modelB = $this->argument('modelB');
         $relation = $this->argument('relation');
 
-        //$this->info('   > Checking ' . $this->qualifyModel($modelA));
+        // If Model A exists
         if (file_exists($this->getPath($this->qualifyClass($modelA)))) {
-            // 代表是把原本有的東東新增
+            // Check if relation function (likes "cars" or "car")
             if (method_exists($this->qualifyClass($modelA), strtolower($modelB)) || method_exists($this->qualifyClass($modelA), strtolower($modelB) . 's')) {
                 $this->error('Method exists.');
-
                 return 1;
             }
+
+            // [A1] Adding relation function
             $content = file_get_contents($this->getPath($this->qualifyClass($modelA)));
             $str = $this->str_lreplace('}', (<<<FUNC
                 public function {{ modelName }}(){
@@ -34,13 +35,15 @@ class LaravelRelationMakerCommand extends GeneratorCommand
             FUNC), $content);
             file_put_contents($this->getPath($this->qualifyClass($modelA)), $str);
             $this->info('   # Modified ' . $this->qualifyClass($modelA));
+            // [/A1]
         } else {
+            // Model A not exists => call parent create model files
             parent::handle();
             $this->info('   # Created ' . $this->qualifyClass($modelA));
         }
 
+        // Replace model name (if model exists, then it'll not doing so.)
         $content = file_get_contents($this->getPath($this->qualifyClass($modelA)));
-
         $str = str_replace('{{ model }}', $modelB, $content);
 
         if ($relation === 'hasMany') {
@@ -112,7 +115,14 @@ class LaravelRelationMakerCommand extends GeneratorCommand
                     ############
                     ## Normal ##
                     ############
-                    $arr = [$modelA,$modelB];
+                    $arr = [];
+                    if (!file_exists($this->getPath($this->qualifyClass($modelA)))){
+                        array_push($arr, $modelA);
+                    }
+                    if (!file_exists($this->getPath($this->qualifyClass($modelB)))){
+                        array_push($arr, $modelB);
+                    }
+
                     foreach ($arr as $model) {
                         $file = file_get_contents($this->getParsedStub('migration.relation.stub'));
                         $this->clearMigration();
